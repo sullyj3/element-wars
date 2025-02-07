@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://durvjavpeefa7"]
+
+[ext_resource type="Script" path="res://Unit.gd" id="1_gwmee"]
+[ext_resource type="Shader" path="res://shaders/unit.gdshader" id="2_6y6hc"]
+[ext_resource type="Texture2D" uid="uid://ct0auxn164v7x" path="res://whitecircle.png" id="2_bkcqv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xmkkv"]
+resource_local_to_scene = true
+shader = ExtResource("2_6y6hc")
+shader_parameter/tint = null
+shader_parameter/selected = null
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j0hf7"]
+radius = 700.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qat4f"]
+radius = 51.0098
+
+[node name="Unit" type="Node2D"]
+script = ExtResource("1_gwmee")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_xmkkv")
+texture = ExtResource("2_bkcqv")
+
+[node name="detector" type="Area2D" parent="."]
+visible = false
+
+[node name="detection radius" type="CollisionShape2D" parent="detector"]
+shape = SubResource("CircleShape2D_j0hf7")
+
+[node name="click target" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="click target"]
+shape = SubResource("CircleShape2D_qat4f")
+
+[connection signal="body_entered" from="detector" to="." method="_on_detector_body_entered"]
+[connection signal="input_event" from="click target" to="." method="_on_click_target_input_event"]
