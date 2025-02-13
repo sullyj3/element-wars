@@ -41,3 +41,16 @@ func _ready() -> void:
 		add_child(unit)
 		
 		i += 1
+
+func move_selected_units_to(position):
+	print("moving units to ", position)
+	for unit in selected_set:
+		unit.navigate_to(position)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and \
+		event.pressed and \
+		event.button_index == MOUSE_BUTTON_MASK_RIGHT:
+		
+		move_selected_units_to(event.position)

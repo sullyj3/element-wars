@@ -31,9 +31,26 @@ func _ready() -> void:
 			tint_color = Color.GREEN
 	$Sprite2D.material.set_shader_parameter("tint", tint_color)
 
+var destination = null
+
+func navigate_to(position):
+	destination = position
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	const threshold = 5
+	if destination != null:
+		# vector from current position to destination
+		var displacement: Vector2 = destination - position
+		if displacement.length() < threshold:
+			# arrived
+			destination = null
+		else:
+			# todo: use delta
+			# todo: just use move_and_slide
+			const speed = 200
+			var vel: Vector2 = displacement.normalized() * speed
+			position += vel * delta
 
 func _on_detector_body_entered(body: Node2D) -> void:
 	if body is Unit and body.faction_id != faction_id:
